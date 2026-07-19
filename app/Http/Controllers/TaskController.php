@@ -7,6 +7,7 @@ use App\Enums\TaskStatus;
 use App\Http\Requests\Task\StoreTaskRequest;
 use App\Http\Requests\Task\UpdateTaskRequest;
 use App\Models\Task;
+use App\Services\TaskQueryService;
 use App\Services\TaskService;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
@@ -14,21 +15,27 @@ use Illuminate\View\View;
 
 class TaskController extends Controller
 {
-    public function __construct(private readonly TaskService $tasks)
-    {
+    public function __construct(
+        private readonly TaskService $tasks,
+        private readonly TaskQueryService $taskQuery,
+    ) {
     }
 
     public function index(Request $request): View
     {
         $this->authorize('viewAny', Task::class);
 
-        $tasks = $request->user()
-            ->tasks()
-            ->with('category')
-            ->latest()
-            ->paginate(10);
+        $filters = $this->taskQuery->filtersFrom($request);
+        $tasks = $this->taskQuery->paginateFor($request->user(), $request);
+        $categories = $request->user()->categories()->orderBy('name')->get();
 
-        return view('tasks.index', compact('tasks'));
+        return view('tasks.index', [
+            'tasks' => $tasks,
+            'filters' => $filters,
+            'categories' => $categories,
+            'priorities' => TaskPriority::cases(),
+            'statuses' => TaskStatus::cases(),
+        ]);
     }
 
     public function trash(Request $request): View

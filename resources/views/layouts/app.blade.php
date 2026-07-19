@@ -44,6 +44,20 @@
 
                 <div class="d-flex align-items-center gap-2">
                     @auth
+                        <form method="GET" action="{{ route('tasks.index') }}" class="d-none d-md-flex" role="search">
+                            <div class="input-group input-group-sm" style="min-width: 220px;">
+                                <span class="input-group-text bg-body"><i class="bi bi-search"></i></span>
+                                <input
+                                    type="search"
+                                    name="q"
+                                    value="{{ request('q') }}"
+                                    class="form-control"
+                                    placeholder="Search tasks..."
+                                    aria-label="Search tasks"
+                                >
+                            </div>
+                        </form>
+
                         @php
                             $currentTheme = auth()->user()->theme ?? \App\Enums\Theme::Light;
                             $nextTheme = $currentTheme->toggle();

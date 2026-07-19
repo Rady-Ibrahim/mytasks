@@ -28,7 +28,7 @@
 | 4 | Categories | ✅ Done |
 | 5 | Tasks (CRUD Core) | ✅ Done |
 | 6 | Task Actions & Soft Deletes | ✅ Done |
-| 7 | Search, Filters & Sort | ⬜ Pending |
+| 7 | Search, Filters & Sort | ✅ Done |
 | 8 | Dashboard & Statistics | ⬜ Pending |
 | 9 | Calendar Views | ⬜ Pending |
 | 10 | Reminders & In-App Notifications | ⬜ Pending |

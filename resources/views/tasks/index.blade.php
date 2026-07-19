@@ -7,7 +7,7 @@
     <div class="d-flex flex-wrap justify-content-between align-items-center gap-3 mb-4">
         <div>
             <h1 class="h3 mb-1">Tasks</h1>
-            <p class="text-secondary mb-0">Create and manage your daily tasks.</p>
+            <p class="text-secondary mb-0">Search, filter, and sort your tasks.</p>
         </div>
         <div class="d-flex gap-2">
             <a href="{{ route('tasks.trash') }}" class="btn btn-outline-secondary">
@@ -19,13 +19,18 @@
         </div>
     </div>
 
+    @include('tasks._filters')
+
     @if ($tasks->isEmpty())
         <x-empty-state
-            title="No tasks yet"
-            message="Create your first task to start tracking your day."
+            title="No tasks found"
+            message="Try adjusting your search or filters, or create a new task."
             icon="bi-list-task"
         >
-            <a href="{{ route('tasks.create') }}" class="btn btn-primary mt-3">Create task</a>
+            <div class="d-flex justify-content-center gap-2 mt-3">
+                <a href="{{ route('tasks.index') }}" class="btn btn-outline-secondary">Clear filters</a>
+                <a href="{{ route('tasks.create') }}" class="btn btn-primary">Create task</a>
+            </div>
         </x-empty-state>
     @else
         <div class="card border-0 shadow-sm">
