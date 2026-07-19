@@ -28,8 +28,9 @@ class TaskDueTodayNotification extends Notification
         return [
             'type' => 'due_today',
             'task_id' => $this->task->id,
-            'title' => 'Due today: '.$this->task->title,
-            'message' => '"'.$this->task->title.'" is due today.',
+            'task_title' => $this->task->title,
+            'title' => __('Due today: :title', ['title' => $this->task->title]),
+            'message' => __('":title" is due today.', ['title' => $this->task->title]),
         ];
     }
 }

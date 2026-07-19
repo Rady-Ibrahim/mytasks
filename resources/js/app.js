@@ -13,9 +13,39 @@ window.confirmAction = function (options = {}) {
         showCancelButton: true,
         confirmButtonText: options.confirmButtonText ?? i18n.delete ?? i18n.yes ?? 'Yes',
         cancelButtonText: options.cancelButtonText ?? i18n.cancel ?? 'Cancel',
-        confirmButtonColor: options.confirmButtonColor ?? '#dc3545',
+        confirmButtonColor: options.confirmButtonColor ?? '#0f766e',
     });
 };
+
+function animateCounters() {
+    document.querySelectorAll('[data-count-to]').forEach((el) => {
+        const target = Number(el.getAttribute('data-count-to') || 0);
+        const decimals = Number(el.getAttribute('data-count-decimals') || 0);
+        const duration = 900;
+        const start = performance.now();
+
+        const tick = (now) => {
+            const progress = Math.min((now - start) / duration, 1);
+            const eased = 1 - Math.pow(1 - progress, 3);
+            const value = target * eased;
+            el.textContent = decimals > 0 ? value.toFixed(decimals) : Math.round(value).toString();
+            if (progress < 1) {
+                requestAnimationFrame(tick);
+            }
+        };
+
+        requestAnimationFrame(tick);
+    });
+}
+
+function animateProgressBars() {
+    document.querySelectorAll('.progress-modern [data-progress-width]').forEach((bar) => {
+        const width = bar.getAttribute('data-progress-width') || '0';
+        requestAnimationFrame(() => {
+            bar.style.width = `${width}%`;
+        });
+    });
+}
 
 document.addEventListener('DOMContentLoaded', () => {
     const toastEl = document.getElementById('app-toast');
@@ -50,4 +80,7 @@ document.addEventListener('DOMContentLoaded', () => {
             }
         });
     });
+
+    animateCounters();
+    animateProgressBars();
 });

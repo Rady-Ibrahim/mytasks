@@ -4,7 +4,7 @@
 @endphp
 
 <div class="mb-3">
-    <label for="title" class="form-label">Title</label>
+    <label for="title" class="form-label">{{ __('Title') }}</label>
     <input
         id="title"
         type="text"
@@ -20,7 +20,7 @@
 </div>
 
 <div class="mb-3">
-    <label for="description" class="form-label">Description</label>
+    <label for="description" class="form-label">{{ __('Description') }}</label>
     <textarea
         id="description"
         name="description"
@@ -34,15 +34,15 @@
 
 <div class="row g-3 mb-3">
     <div class="col-md-6">
-        <label for="category_id" class="form-label">Category</label>
+        <label for="category_id" class="form-label">{{ __('Category') }}</label>
         <select id="category_id" name="category_id" class="form-select @error('category_id') is-invalid @enderror">
-            <option value="">No category</option>
+            <option value="">{{ __('No category') }}</option>
             @foreach ($categories as $category)
                 <option
                     value="{{ $category->id }}"
                     @selected((string) old('category_id', $task->category_id ?? '') === (string) $category->id)
                 >
-                    {{ $category->name }}
+                    {{ __($category->name) }}
                 </option>
             @endforeach
         </select>
@@ -52,7 +52,7 @@
     </div>
 
     <div class="col-md-3">
-        <label for="priority" class="form-label">Priority</label>
+        <label for="priority" class="form-label">{{ __('Priority') }}</label>
         <select id="priority" name="priority" class="form-select @error('priority') is-invalid @enderror" required>
             @foreach ($priorities as $priority)
                 <option
@@ -69,7 +69,7 @@
     </div>
 
     <div class="col-md-3">
-        <label for="status" class="form-label">Status</label>
+        <label for="status" class="form-label">{{ __('Status') }}</label>
         <select id="status" name="status" class="form-select @error('status') is-invalid @enderror" required>
             @foreach ($statuses as $status)
                 <option
@@ -88,7 +88,7 @@
 
 <div class="row g-3 mb-3">
     <div class="col-md-4">
-        <label for="due_date" class="form-label">Due date</label>
+        <label for="due_date" class="form-label">{{ __('Due date') }}</label>
         <input
             id="due_date"
             type="date"
@@ -102,7 +102,7 @@
     </div>
 
     <div class="col-md-4">
-        <label for="due_time" class="form-label">Due time</label>
+        <label for="due_time" class="form-label">{{ __('Due time') }}</label>
         <input
             id="due_time"
             type="time"
@@ -116,7 +116,7 @@
     </div>
 
     <div class="col-md-4">
-        <label for="reminder_at" class="form-label">Reminder</label>
+        <label for="reminder_at" class="form-label">{{ __('Reminder') }}</label>
         <input
             id="reminder_at"
             type="datetime-local"
@@ -131,13 +131,13 @@
 </div>
 
 <div class="mb-4">
-    <label for="notes" class="form-label">Notes</label>
+    <label for="notes" class="form-label">{{ __('Notes') }}</label>
     <textarea
         id="notes"
         name="notes"
         rows="5"
         class="form-control @error('notes') is-invalid @enderror"
-        placeholder="Write detailed notes for this task..."
+        placeholder="{{ __('Write detailed notes for this task...') }}"
     >{{ old('notes', $task->notes ?? '') }}</textarea>
     @error('notes')
         <div class="invalid-feedback">{{ $message }}</div>

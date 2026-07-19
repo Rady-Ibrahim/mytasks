@@ -28,8 +28,9 @@ class TaskOverdueNotification extends Notification
         return [
             'type' => 'overdue',
             'task_id' => $this->task->id,
-            'title' => 'Overdue: '.$this->task->title,
-            'message' => '"'.$this->task->title.'" is overdue.',
+            'task_title' => $this->task->title,
+            'title' => __('Overdue: :title', ['title' => $this->task->title]),
+            'message' => __('":title" is overdue.', ['title' => $this->task->title]),
         ];
     }
 }

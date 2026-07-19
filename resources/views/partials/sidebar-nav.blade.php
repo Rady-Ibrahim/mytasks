@@ -1,8 +1,8 @@
 @php($compact = $compact ?? false)
 
 @unless ($compact)
-    <a href="{{ route('dashboard') }}" class="app-brand text-decoration-none mb-4">
-        <i class="bi bi-check2-square me-2 text-primary"></i>
+    <a href="{{ route('dashboard') }}" class="app-brand text-decoration-none mb-4 d-block">
+        <i class="bi bi-check2-square me-2"></i>
         {{ config('app.name', 'MyTasks') }}
     </a>
 @endunless

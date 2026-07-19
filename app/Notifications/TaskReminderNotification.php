@@ -28,8 +28,9 @@ class TaskReminderNotification extends Notification
         return [
             'type' => 'reminder',
             'task_id' => $this->task->id,
-            'title' => 'Reminder: '.$this->task->title,
-            'message' => 'Your reminder for "'.$this->task->title.'" is due.',
+            'task_title' => $this->task->title,
+            'title' => __('Reminder: :title', ['title' => $this->task->title]),
+            'message' => __('Your reminder for ":title" is due.', ['title' => $this->task->title]),
         ];
     }
 }

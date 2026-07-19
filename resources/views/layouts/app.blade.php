@@ -7,6 +7,10 @@
 
     <title>@yield('title', config('app.name', 'MyTasks'))</title>
 
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
     @if (app()->getLocale() === 'ar')
         <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.rtl.min.css">
     @else
@@ -17,16 +21,16 @@
 </head>
 <body>
     <div class="app-shell d-flex" data-layout="app">
-        <aside class="app-sidebar border-end bg-body d-none d-lg-flex flex-column p-3" data-testid="app-sidebar">
+        <aside class="app-sidebar d-none d-lg-flex flex-column p-4" data-testid="app-sidebar">
             @include('partials.sidebar-nav')
         </aside>
 
-        <div class="offcanvas offcanvas-start" tabindex="-1" id="appSidebarOffcanvas" aria-labelledby="appSidebarOffcanvasLabel">
-            <div class="offcanvas-header">
-                <h2 class="offcanvas-title h5 app-brand" id="appSidebarOffcanvasLabel">
-                    <i class="bi bi-check2-square me-1 text-primary"></i>{{ config('app.name') }}
+        <div class="offcanvas offcanvas-start app-offcanvas" tabindex="-1" id="appSidebarOffcanvas" aria-labelledby="appSidebarOffcanvasLabel">
+            <div class="offcanvas-header border-0">
+                <h2 class="offcanvas-title h5 app-brand text-white" id="appSidebarOffcanvasLabel">
+                    <i class="bi bi-check2-square me-1"></i>{{ config('app.name') }}
                 </h2>
-                <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="{{ __('Cancel') }}"></button>
+                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="offcanvas" aria-label="{{ __('Cancel') }}"></button>
             </div>
             <div class="offcanvas-body p-3">
                 @include('partials.sidebar-nav', ['compact' => true])
@@ -34,40 +38,41 @@
         </div>
 
         <div class="flex-grow-1 d-flex flex-column min-vh-100">
-            <header class="border-bottom bg-body px-3 px-lg-4 py-3 d-flex align-items-center justify-content-between" data-testid="app-topnav">
+            <header class="app-topnav px-3 px-lg-4 py-3 d-flex align-items-center justify-content-between" data-testid="app-topnav">
                 <div class="d-flex align-items-center gap-2">
                     <button
-                        class="btn btn-outline-secondary btn-sm d-lg-none"
+                        class="topnav-icon d-lg-none"
                         type="button"
                         data-bs-toggle="offcanvas"
                         data-bs-target="#appSidebarOffcanvas"
                         aria-controls="appSidebarOffcanvas"
+                        aria-label="{{ __('Menu') }}"
                     >
                         <i class="bi bi-list"></i>
                     </button>
-                    <span class="fw-semibold">@yield('page-title', 'MyTasks')</span>
+                    <span class="fw-bold">@yield('page-title', 'MyTasks')</span>
                 </div>
 
-                <div class="d-flex align-items-center gap-2">
+                <div class="d-flex align-items-center gap-1 gap-md-2 topnav-actions">
                     @auth
-                        <form method="GET" action="{{ route('tasks.index') }}" class="d-none d-md-flex" role="search">
-                            <div class="input-group input-group-sm" style="min-width: 220px;">
-                                <span class="input-group-text bg-body"><i class="bi bi-search"></i></span>
+                        <form method="GET" action="{{ route('tasks.index') }}" class="d-none d-md-flex me-1" role="search">
+                            <div class="input-group input-group-sm search-pill" style="min-width: 220px;">
+                                <span class="input-group-text border-0 bg-transparent pe-0"><i class="bi bi-search"></i></span>
                                 <input
                                     type="search"
                                     name="q"
                                     value="{{ request('q') }}"
-                                    class="form-control"
+                                    class="form-control border-0 bg-transparent"
                                     placeholder="{{ __('Search tasks...') }}"
                                     aria-label="{{ __('Search tasks...') }}"
                                 >
                             </div>
                         </form>
 
-                        <a href="{{ route('notifications.index') }}" class="btn btn-outline-secondary btn-sm position-relative" title="{{ __('Notifications') }}">
+                        <a href="{{ route('notifications.index') }}" class="topnav-icon position-relative" title="{{ __('Notifications') }}">
                             <i class="bi bi-bell"></i>
                             @if (($unreadNotificationsCount ?? 0) > 0)
-                                <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
+                                <span class="topnav-badge">
                                     {{ $unreadNotificationsCount > 9 ? '9+' : $unreadNotificationsCount }}
                                 </span>
                             @endif
@@ -83,7 +88,7 @@
                             <input type="hidden" name="theme" value="{{ $nextTheme->value }}">
                             <button
                                 type="submit"
-                                class="btn btn-outline-secondary btn-sm"
+                                class="topnav-icon"
                                 title="{{ __('Switch to :theme mode', ['theme' => $nextTheme->label()]) }}"
                                 data-testid="theme-toggle"
                             >
@@ -91,15 +96,18 @@
                             </button>
                         </form>
 
-                        <span class="small text-secondary d-none d-md-inline">{{ auth()->user()->name }}</span>
-                        <a href="{{ route('profile.edit') }}" class="btn btn-outline-secondary btn-sm" title="{{ __('Profile') }}">
+                        <a href="{{ route('profile.edit') }}" class="topnav-icon" title="{{ __('Profile') }}">
                             <i class="bi bi-person"></i>
                         </a>
+
+                        <div class="topnav-divider d-none d-md-block"></div>
+
+                        <span class="small text-secondary d-none d-lg-inline topnav-user">{{ auth()->user()->name }}</span>
+
                         <form method="POST" action="{{ route('logout') }}">
                             @csrf
-                            <button type="submit" class="btn btn-outline-secondary btn-sm">
+                            <button type="submit" class="topnav-icon topnav-icon-muted" title="{{ __('Log out') }}">
                                 <i class="bi bi-box-arrow-right"></i>
-                                <span class="d-none d-sm-inline">{{ __('Log out') }}</span>
                             </button>
                         </form>
                     @else
@@ -109,7 +117,7 @@
                 </div>
             </header>
 
-            <main class="flex-grow-1 p-3 p-lg-4">
+            <main class="app-main flex-grow-1 p-3 p-lg-4">
                 @include('partials.flash')
 
                 @yield('content')

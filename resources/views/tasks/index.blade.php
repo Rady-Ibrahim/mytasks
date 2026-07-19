@@ -4,17 +4,17 @@
 @section('page-title', __('Tasks'))
 
 @section('content')
-    <div class="d-flex flex-wrap justify-content-between align-items-center gap-3 mb-4">
+    <div class="page-heading d-flex flex-wrap justify-content-between align-items-end gap-3 reveal">
         <div>
-            <h1 class="h3 mb-1">{{ __('Tasks') }}</h1>
+            <h1 class="h2 mb-1">{{ __('Tasks') }}</h1>
             <p class="text-secondary mb-0">{{ __('Search, filter, and sort your tasks.') }}</p>
         </div>
-        <div class="d-flex gap-2">
-            <a href="{{ route('tasks.trash') }}" class="btn btn-outline-secondary">
-                <i class="bi bi-trash me-1"></i> {{ __('Trash') }}
+        <div class="toolbar-actions">
+            <a href="{{ route('tasks.trash') }}" class="btn btn-soft">
+                <i class="bi bi-trash"></i> {{ __('Trash') }}
             </a>
             <a href="{{ route('tasks.create') }}" class="btn btn-primary">
-                <i class="bi bi-plus-lg me-1"></i> {{ __('New task') }}
+                <i class="bi bi-plus-lg"></i> {{ __('New task') }}
             </a>
         </div>
     </div>
@@ -28,15 +28,15 @@
             icon="bi-list-task"
         >
             <div class="d-flex justify-content-center gap-2 mt-3">
-                <a href="{{ route('tasks.index') }}" class="btn btn-outline-secondary">{{ __('Clear filters') }}</a>
+                <a href="{{ route('tasks.index') }}" class="btn btn-soft">{{ __('Clear filters') }}</a>
                 <a href="{{ route('tasks.create') }}" class="btn btn-primary">{{ __('Create task') }}</a>
             </div>
         </x-empty-state>
     @else
-        <div class="card border-0 shadow-sm">
+        <div class="panel overflow-hidden reveal reveal-delay-1">
             <div class="table-responsive">
-                <table class="table table-hover align-middle mb-0">
-                    <thead class="table-light">
+                <table class="table table-modern table-hover align-middle mb-0">
+                    <thead>
                         <tr>
                             <th>{{ __('Task') }}</th>
                             <th>{{ __('Category') }}</th>
@@ -63,7 +63,7 @@
                                     @if ($task->category)
                                         <span class="d-inline-flex align-items-center gap-1">
                                             <i class="bi {{ $task->category->icon }}" style="color: {{ $task->category->color }}"></i>
-                                            {{ $task->category->name }}
+                                            {{ __($task->category->name) }}
                                         </span>
                                     @else
                                         <span class="text-secondary">—</span>
@@ -77,7 +77,7 @@
                                 </td>
                                 <td>
                                     @if ($task->due_date)
-                                        {{ $task->due_date->format('M j, Y') }}
+                                        {{ $task->due_date->translatedFormat('d M Y') }}
                                         @if ($task->due_time)
                                             <span class="text-secondary small">{{ \Illuminate\Support\Str::of($task->due_time)->substr(0, 5) }}</span>
                                         @endif
@@ -85,43 +85,49 @@
                                         <span class="text-secondary">—</span>
                                     @endif
                                 </td>
-                                <td class="text-end text-nowrap">
-                                    @if ($task->status !== \App\Enums\TaskStatus::Completed)
-                                        <form method="POST" action="{{ route('tasks.complete', $task) }}" class="d-inline">
+                                <td class="text-end">
+                                    <div class="action-group">
+                                        @if ($task->status !== \App\Enums\TaskStatus::Completed)
+                                            <form method="POST" action="{{ route('tasks.complete', $task) }}">
+                                                @csrf
+                                                <button type="submit" class="btn-icon btn-icon-success" title="{{ __('Complete') }}">
+                                                    <i class="bi bi-check2"></i>
+                                                </button>
+                                            </form>
+                                        @else
+                                            <form method="POST" action="{{ route('tasks.reopen', $task) }}">
+                                                @csrf
+                                                <button type="submit" class="btn-icon" title="{{ __('Reopen') }}">
+                                                    <i class="bi bi-arrow-counterclockwise"></i>
+                                                </button>
+                                            </form>
+                                        @endif
+
+                                        <form method="POST" action="{{ route('tasks.duplicate', $task) }}">
                                             @csrf
-                                            <button type="submit" class="btn btn-sm btn-outline-success" title="Complete">
-                                                <i class="bi bi-check2"></i>
+                                            <button type="submit" class="btn-icon" title="{{ __('Duplicate') }}">
+                                                <i class="bi bi-copy"></i>
                                             </button>
                                         </form>
-                                    @else
-                                        <form method="POST" action="{{ route('tasks.reopen', $task) }}" class="d-inline">
+
+                                        <a href="{{ route('tasks.edit', $task) }}" class="btn-icon" title="{{ __('Edit') }}">
+                                            <i class="bi bi-pencil"></i>
+                                        </a>
+
+                                        <form
+                                            method="POST"
+                                            action="{{ route('tasks.destroy', $task) }}"
+                                            data-confirm-delete
+                                            data-confirm-title="{{ __('Delete task?') }}"
+                                            data-confirm-text="{{ __('This will move the task to trash.') }}"
+                                        >
                                             @csrf
-                                            <button type="submit" class="btn btn-sm btn-outline-primary" title="Reopen">
-                                                <i class="bi bi-arrow-counterclockwise"></i>
+                                            @method('DELETE')
+                                            <button type="submit" class="btn-icon btn-icon-danger" title="{{ __('Delete') }}">
+                                                <i class="bi bi-trash"></i>
                                             </button>
                                         </form>
-                                    @endif
-
-                                    <form method="POST" action="{{ route('tasks.duplicate', $task) }}" class="d-inline">
-                                        @csrf
-                                        <button type="submit" class="btn btn-sm btn-outline-secondary" title="Duplicate">
-                                            <i class="bi bi-copy"></i>
-                                        </button>
-                                    </form>
-
-                                    <a href="{{ route('tasks.edit', $task) }}" class="btn btn-sm btn-outline-secondary">{{ __('Edit') }}</a>
-                                    <form
-                                        method="POST"
-                                        action="{{ route('tasks.destroy', $task) }}"
-                                        class="d-inline"
-                                        data-confirm-delete
-                                        data-confirm-title="{{ __('Delete task?') }}"
-                                        data-confirm-text="{{ __('This will move the task to trash.') }}"
-                                    >
-                                        @csrf
-                                        @method('DELETE')
-                                        <button type="submit" class="btn btn-sm btn-outline-danger">{{ __('Delete') }}</button>
-                                    </form>
+                                    </div>
                                 </td>
                             </tr>
                         @endforeach

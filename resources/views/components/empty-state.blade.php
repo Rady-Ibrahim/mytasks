@@ -4,7 +4,7 @@
     'icon' => 'bi-inbox',
 ])
 
-<div {{ $attributes->merge(['class' => 'empty-state border rounded-3 bg-body']) }}>
+<div {{ $attributes->merge(['class' => 'empty-state panel']) }}>
     <div class="display-6 text-secondary mb-3">
         <i class="bi {{ $icon }}"></i>
     </div>

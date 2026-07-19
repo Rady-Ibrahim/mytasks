@@ -3,34 +3,22 @@
 @section('title', config('app.name', 'MyTasks'))
 
 @section('content')
-    <div class="row justify-content-center">
-        <div class="col-lg-8">
-            <div class="card border-0 shadow-sm" data-testid="home-hero">
-                <div class="card-body p-4 p-md-5">
-                    <div class="d-flex align-items-center gap-2 mb-3 text-primary">
-                        <i class="bi bi-check2-square fs-3"></i>
-                        <span class="app-brand fs-4">{{ config('app.name', 'MyTasks') }}</span>
-                    </div>
-
-                    <h1 class="h2 mb-3">{{ __('Personal Daily Task Manager') }}</h1>
-                    <p class="lead text-secondary mb-4">
-                        {{ __('Organize tasks, categories, reminders, and your daily productivity in one clean workspace.') }}
-                    </p>
-
-                    <div class="d-flex flex-wrap gap-2 mb-4">
-                        <a href="{{ route('register') }}" class="btn btn-primary">{{ __('Get started') }}</a>
-                        <a href="{{ route('login') }}" class="btn btn-outline-primary">{{ __('Log in') }}</a>
-                    </div>
-
-                    <div class="d-flex flex-wrap gap-2">
-                        <span class="badge bg-primary-subtle text-primary-emphasis border">Laravel 12</span>
-                        <span class="badge bg-primary-subtle text-primary-emphasis border">Blade</span>
-                        <span class="badge bg-primary-subtle text-primary-emphasis border">Bootstrap 5</span>
-                        <span class="badge bg-primary-subtle text-primary-emphasis border">Vite</span>
-                        <span class="badge bg-primary-subtle text-primary-emphasis border">MySQL</span>
-                    </div>
+    <section class="hero-landing" data-testid="home-hero">
+        <div class="row align-items-center g-5">
+            <div class="col-lg-6 reveal">
+                <p class="brand-mark mb-2">{{ config('app.name', 'MyTasks') }}</p>
+                <h1 class="h3 fw-semibold mb-3 text-white-50">{{ __('Personal Daily Task Manager') }}</h1>
+                <p class="hero-copy mb-4">
+                    {{ __('Organize tasks, categories, reminders, and your daily productivity in one clean workspace.') }}
+                </p>
+                <div class="d-flex flex-wrap gap-2">
+                    <a href="{{ route('register') }}" class="btn btn-light btn-lg px-4 fw-semibold">{{ __('Get started') }}</a>
+                    <a href="{{ route('login') }}" class="btn btn-outline-light btn-lg px-4">{{ __('Log in') }}</a>
                 </div>
             </div>
+            <div class="col-lg-6 d-flex justify-content-center reveal reveal-delay-2">
+                <div class="hero-orb" aria-hidden="true"></div>
+            </div>
         </div>
-    </div>
+    </section>
 @endsection

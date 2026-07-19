@@ -4,7 +4,7 @@
 @endphp
 
 <div class="mb-3">
-    <label for="name" class="form-label">Name</label>
+    <label for="name" class="form-label">{{ __('Name') }}</label>
     <input
         id="name"
         type="text"
@@ -20,7 +20,7 @@
 </div>
 
 <div class="mb-3">
-    <label for="color" class="form-label">Color</label>
+    <label for="color" class="form-label">{{ __('Color') }}</label>
     <div class="input-group" style="max-width: 12rem;">
         <input
             id="color"
@@ -28,7 +28,7 @@
             name="color"
             value="{{ $selectedColor }}"
             class="form-control form-control-color @error('color') is-invalid @enderror"
-            title="Choose color"
+            title="{{ __('Color') }}"
         >
         <span class="input-group-text font-monospace small">{{ $selectedColor }}</span>
     </div>
@@ -38,7 +38,7 @@
 </div>
 
 <div class="mb-4">
-    <label class="form-label">Icon</label>
+    <label class="form-label">{{ __('Icon') }}</label>
     <div class="row g-2">
         @foreach ($iconOptions as $icon)
             <div class="col-4 col-sm-3 col-md-2">
@@ -51,7 +51,7 @@
                     autocomplete="off"
                     @checked($selectedIcon === $icon)
                 >
-                <label class="btn btn-outline-secondary w-100" for="icon-{{ $icon }}">
+                <label class="btn btn-soft w-100" for="icon-{{ $icon }}">
                     <i class="bi {{ $icon }}"></i>
                 </label>
             </div>

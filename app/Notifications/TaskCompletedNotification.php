@@ -28,8 +28,9 @@ class TaskCompletedNotification extends Notification
         return [
             'type' => 'completed',
             'task_id' => $this->task->id,
-            'title' => 'Completed: '.$this->task->title,
-            'message' => 'You completed "'.$this->task->title.'".',
+            'task_title' => $this->task->title,
+            'title' => __('Completed: :title', ['title' => $this->task->title]),
+            'message' => __('You completed ":title".', ['title' => $this->task->title]),
         ];
     }
 }

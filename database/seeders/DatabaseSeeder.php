@@ -10,14 +10,20 @@ class DatabaseSeeder extends Seeder
 {
     public function run(DefaultCategoryService $defaultCategories): void
     {
-        $user = User::factory()->create([
-            'name' => 'Test User',
-            'email' => 'test@example.com',
-            'password' => 'password',
+        $testUser = User::query()->updateOrCreate(
+            ['email' => 'test@example.com'],
+            [
+                'name' => 'Test User',
+                'password' => 'password',
+                'theme' => 'light',
+                'email_verified_at' => now(),
+            ]
+        );
+
+        $defaultCategories->seedFor($testUser);
+
+        $this->call([
+            DemoSeeder::class,
         ]);
-
-        $defaultCategories->seedFor($user);
-
-        $this->call(DemoSeeder::class);
     }
 }

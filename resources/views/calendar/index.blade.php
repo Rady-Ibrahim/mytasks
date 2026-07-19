@@ -1,13 +1,13 @@
 @extends('layouts.app')
 
-@section('title', 'Calendar — '.config('app.name'))
-@section('page-title', 'Calendar')
+@section('title', __('Calendar').' — '.config('app.name'))
+@section('page-title', __('Calendar'))
 
 @section('content')
-    <div class="d-flex flex-wrap justify-content-between align-items-center gap-3 mb-4">
+    <div class="page-heading d-flex flex-wrap justify-content-between align-items-end gap-3 reveal">
         <div>
-            <h1 class="h3 mb-1">Calendar</h1>
-            <p class="text-secondary mb-0">
+            <h1 class="h2 mb-1">{{ __('Calendar') }}</h1>
+            <p class="text-secondary mb-0 calendar-period">
                 @if ($view === 'day')
                     {{ $date->format('l, F j, Y') }}
                 @elseif ($view === 'week')
@@ -18,66 +18,74 @@
             </p>
         </div>
 
-        <div class="d-flex flex-wrap gap-2">
-            <div class="btn-group">
-                <a href="{{ route('calendar', ['view' => 'day', 'date' => $date->toDateString()]) }}" class="btn btn-sm {{ $view === 'day' ? 'btn-primary' : 'btn-outline-primary' }}">Day</a>
-                <a href="{{ route('calendar', ['view' => 'week', 'date' => $date->toDateString()]) }}" class="btn btn-sm {{ $view === 'week' ? 'btn-primary' : 'btn-outline-primary' }}">Week</a>
-                <a href="{{ route('calendar', ['view' => 'month', 'date' => $date->toDateString()]) }}" class="btn btn-sm {{ $view === 'month' ? 'btn-primary' : 'btn-outline-primary' }}">Month</a>
+        <div class="d-flex flex-wrap gap-2 align-items-center">
+            <div class="calendar-view-switch" role="group" aria-label="{{ __('Calendar') }}">
+                <a href="{{ route('calendar', ['view' => 'day', 'date' => $date->toDateString()]) }}" class="{{ $view === 'day' ? 'is-active' : '' }}">{{ __('Day') }}</a>
+                <a href="{{ route('calendar', ['view' => 'week', 'date' => $date->toDateString()]) }}" class="{{ $view === 'week' ? 'is-active' : '' }}">{{ __('Week') }}</a>
+                <a href="{{ route('calendar', ['view' => 'month', 'date' => $date->toDateString()]) }}" class="{{ $view === 'month' ? 'is-active' : '' }}">{{ __('Month') }}</a>
             </div>
 
-            <div class="btn-group">
-                <a href="{{ route('calendar', ['view' => $view, 'date' => $previous->toDateString()]) }}" class="btn btn-sm btn-outline-secondary">
-                    <i class="bi bi-chevron-left"></i>
+            <div class="calendar-nav">
+                <a href="{{ route('calendar', ['view' => $view, 'date' => $previous->toDateString()]) }}" class="calendar-nav-btn" title="{{ __('Previous') }}">
+                    <i class="bi bi-chevron-{{ app()->getLocale() === 'ar' ? 'right' : 'left' }}"></i>
                 </a>
-                <a href="{{ route('calendar', ['view' => $view, 'date' => now()->toDateString()]) }}" class="btn btn-sm btn-outline-secondary">Today</a>
-                <a href="{{ route('calendar', ['view' => $view, 'date' => $next->toDateString()]) }}" class="btn btn-sm btn-outline-secondary">
-                    <i class="bi bi-chevron-right"></i>
+                <a href="{{ route('calendar', ['view' => $view, 'date' => now()->toDateString()]) }}" class="calendar-nav-today">{{ __('Today') }}</a>
+                <a href="{{ route('calendar', ['view' => $view, 'date' => $next->toDateString()]) }}" class="calendar-nav-btn" title="{{ __('Next') }}">
+                    <i class="bi bi-chevron-{{ app()->getLocale() === 'ar' ? 'left' : 'right' }}"></i>
                 </a>
             </div>
 
-            <a href="{{ route('tasks.create', ['due_date' => $date->toDateString()]) }}" class="btn btn-sm btn-primary">
-                <i class="bi bi-plus-lg me-1"></i> Add task
+            <a href="{{ route('tasks.create', ['due_date' => $date->toDateString()]) }}" class="btn btn-primary btn-sm">
+                <i class="bi bi-plus-lg me-1"></i> {{ __('Add task') }}
             </a>
         </div>
     </div>
 
     @if ($view === 'month')
-        <div class="card border-0 shadow-sm">
-            <div class="card-body p-2 p-md-3">
-                <div class="row row-cols-7 g-2 text-center small text-secondary mb-2 d-none d-md-flex">
-                    @foreach (['Sun','Mon','Tue','Wed','Thu','Fri','Sat'] as $weekday)
-                        <div class="col fw-semibold">{{ $weekday }}</div>
-                    @endforeach
-                </div>
-                <div class="row row-cols-2 row-cols-md-7 g-2">
-                    @foreach ($days as $day)
-                        @php
-                            $key = $day->toDateString();
-                            $dayTasks = $tasksByDate->get($key, collect());
-                            $inMonth = $day->month === $date->month;
-                        @endphp
-                        <div class="col">
-                            <div class="border rounded-3 p-2 h-100 {{ $day->isToday() ? 'border-primary' : '' }} {{ $inMonth ? 'bg-body' : 'bg-body-tertiary' }}">
-                                <div class="d-flex justify-content-between align-items-center mb-2">
-                                    <a href="{{ route('calendar', ['view' => 'day', 'date' => $key]) }}" class="fw-semibold text-decoration-none {{ $inMonth ? '' : 'text-secondary' }}">
-                                        {{ $day->day }}
-                                    </a>
-                                    <a href="{{ route('tasks.create', ['due_date' => $key]) }}" class="small text-secondary" title="Add task">+</a>
-                                </div>
-                                <div class="d-grid gap-1">
-                                    @foreach ($dayTasks->take(3) as $task)
-                                        <a href="{{ route('tasks.show', $task) }}" class="badge bg-primary-subtle text-primary text-truncate text-decoration-none">
-                                            {{ $task->title }}
-                                        </a>
-                                    @endforeach
-                                    @if ($dayTasks->count() > 3)
-                                        <span class="small text-secondary">+{{ $dayTasks->count() - 3 }} more</span>
-                                    @endif
-                                </div>
-                            </div>
+        <div class="panel calendar-month overflow-hidden reveal reveal-delay-1">
+            <div class="calendar-weekdays d-none d-md-grid">
+                @foreach (['Sun','Mon','Tue','Wed','Thu','Fri','Sat'] as $weekday)
+                    <div>{{ __($weekday) }}</div>
+                @endforeach
+            </div>
+            <div class="calendar-grid">
+                @foreach ($days as $day)
+                    @php
+                        $key = $day->toDateString();
+                        $dayTasks = $tasksByDate->get($key, collect());
+                        $inMonth = $day->month === $date->month;
+                        $isToday = $day->isToday();
+                    @endphp
+                    <div class="calendar-cell {{ $inMonth ? '' : 'is-outside' }} {{ $isToday ? 'is-today' : '' }} {{ $dayTasks->isNotEmpty() ? 'has-tasks' : '' }}">
+                        <div class="calendar-cell-head">
+                            <a href="{{ route('calendar', ['view' => 'day', 'date' => $key]) }}" class="calendar-day-num">
+                                {{ $day->day }}
+                            </a>
+                            <a href="{{ route('tasks.create', ['due_date' => $key]) }}" class="calendar-cell-add" title="{{ __('Add task') }}">
+                                <i class="bi bi-plus"></i>
+                            </a>
                         </div>
-                    @endforeach
-                </div>
+                        <div class="calendar-cell-tasks">
+                            @foreach ($dayTasks->take(3) as $task)
+                                <a
+                                    href="{{ route('tasks.show', $task) }}"
+                                    class="calendar-chip priority-{{ $task->priority->value }}"
+                                    title="{{ $task->title }}"
+                                >
+                                    @if ($task->category)
+                                        <span class="calendar-chip-dot" style="background: {{ $task->category->color }}"></span>
+                                    @endif
+                                    <span class="calendar-chip-text">{{ $task->title }}</span>
+                                </a>
+                            @endforeach
+                            @if ($dayTasks->count() > 3)
+                                <a href="{{ route('calendar', ['view' => 'day', 'date' => $key]) }}" class="calendar-more">
+                                    +{{ $dayTasks->count() - 3 }} {{ __('more') }}
+                                </a>
+                            @endif
+                        </div>
+                    </div>
+                @endforeach
             </div>
         </div>
     @else
@@ -87,32 +95,47 @@
                     $key = $day->toDateString();
                     $dayTasks = $tasksByDate->get($key, collect());
                 @endphp
-                <div class="{{ $view === 'day' ? 'col-12' : 'col-md-6 col-xl-4' }}">
-                    <div class="card border-0 shadow-sm h-100 {{ $day->isToday() ? 'border border-primary' : '' }}">
-                        <div class="card-body">
-                            <div class="d-flex justify-content-between align-items-center mb-3">
-                                <h2 class="h6 mb-0">{{ $day->format('D, M j') }}</h2>
-                                <a href="{{ route('tasks.create', ['due_date' => $key]) }}" class="btn btn-sm btn-outline-primary">Add</a>
+                <div class="{{ $view === 'day' ? 'col-12' : 'col-md-6 col-xl' }} reveal reveal-delay-{{ min($loop->iteration, 5) }}">
+                    <div class="panel calendar-day-card h-100 {{ $day->isToday() ? 'is-today' : '' }}">
+                        <div class="calendar-day-card-head">
+                            <div>
+                                <div class="calendar-day-label">{{ $day->format('D') }}</div>
+                                <h2 class="h5 mb-0 fw-bold">{{ $day->format('M j') }}</h2>
                             </div>
-
-                            @if ($dayTasks->isEmpty())
-                                <p class="text-secondary small mb-0">No tasks.</p>
-                            @else
-                                <ul class="list-group list-group-flush">
-                                    @foreach ($dayTasks as $task)
-                                        <li class="list-group-item px-0">
-                                            <a href="{{ route('tasks.show', $task) }}" class="fw-semibold text-decoration-none">{{ $task->title }}</a>
-                                            <div class="small text-secondary">
-                                                <span class="badge {{ $task->status->badgeClass() }}">{{ $task->status->label() }}</span>
-                                                @if ($task->due_time)
-                                                    · {{ \Illuminate\Support\Str::of($task->due_time)->substr(0, 5) }}
-                                                @endif
-                                            </div>
-                                        </li>
-                                    @endforeach
-                                </ul>
-                            @endif
+                            <a href="{{ route('tasks.create', ['due_date' => $key]) }}" class="btn btn-sm btn-outline-primary">{{ __('Add') }}</a>
                         </div>
+
+                        @if ($dayTasks->isEmpty())
+                            <div class="calendar-day-empty">
+                                <i class="bi bi-calendar2-check"></i>
+                                <span>{{ __('No tasks.') }}</span>
+                            </div>
+                        @else
+                            <ul class="calendar-day-list">
+                                @foreach ($dayTasks as $task)
+                                    <li>
+                                        <a href="{{ route('tasks.show', $task) }}" class="calendar-day-item">
+                                            <span class="calendar-day-item-accent priority-{{ $task->priority->value }}"></span>
+                                            <div class="flex-grow-1 min-w-0">
+                                                <div class="fw-semibold text-truncate">{{ $task->title }}</div>
+                                                <div class="small text-secondary d-flex flex-wrap gap-2 align-items-center mt-1">
+                                                    <span class="badge {{ $task->status->badgeClass() }}">{{ $task->status->label() }}</span>
+                                                    @if ($task->due_time)
+                                                        <span><i class="bi bi-clock me-1"></i>{{ \Illuminate\Support\Str::of($task->due_time)->substr(0, 5) }}</span>
+                                                    @endif
+                                                    @if ($task->category)
+                                                        <span class="d-inline-flex align-items-center gap-1">
+                                                            <i class="bi {{ $task->category->icon }}" style="color: {{ $task->category->color }}"></i>
+                                                            {{ $task->category->name }}
+                                                        </span>
+                                                    @endif
+                                                </div>
+                                            </div>
+                                        </a>
+                                    </li>
+                                @endforeach
+                            </ul>
+                        @endif
                     </div>
                 </div>
             @endforeach

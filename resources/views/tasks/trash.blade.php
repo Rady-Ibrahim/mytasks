@@ -1,35 +1,35 @@
 @extends('layouts.app')
 
-@section('title', 'Trash — '.config('app.name'))
-@section('page-title', 'Trash')
+@section('title', __('Trash').' — '.config('app.name'))
+@section('page-title', __('Trash'))
 
 @section('content')
-    <div class="d-flex flex-wrap justify-content-between align-items-center gap-3 mb-4">
+    <div class="page-heading d-flex flex-wrap justify-content-between align-items-end gap-3 reveal">
         <div>
-            <h1 class="h3 mb-1">Trash</h1>
-            <p class="text-secondary mb-0">Restore deleted tasks or remove them permanently.</p>
+            <h1 class="h2 mb-1">{{ __('Trash') }}</h1>
+            <p class="text-secondary mb-0">{{ __('Restore deleted tasks or remove them permanently.') }}</p>
         </div>
-        <a href="{{ route('tasks.index') }}" class="btn btn-outline-secondary">
-            <i class="bi bi-arrow-left me-1"></i> Back to tasks
+        <a href="{{ route('tasks.index') }}" class="btn btn-soft">
+            <i class="bi bi-arrow-{{ app()->getLocale() === 'ar' ? 'right' : 'left' }}"></i> {{ __('Back to tasks') }}
         </a>
     </div>
 
     @if ($tasks->isEmpty())
         <x-empty-state
-            title="Trash is empty"
-            message="Deleted tasks will appear here."
+            title="{{ __('Trash is empty') }}"
+            message="{{ __('Deleted tasks will appear here.') }}"
             icon="bi-trash"
         />
     @else
-        <div class="card border-0 shadow-sm">
+        <div class="panel overflow-hidden reveal">
             <div class="table-responsive">
-                <table class="table table-hover align-middle mb-0">
-                    <thead class="table-light">
+                <table class="table table-modern table-hover align-middle mb-0">
+                    <thead>
                         <tr>
-                            <th>Task</th>
-                            <th>Category</th>
-                            <th>Deleted</th>
-                            <th class="text-end">Actions</th>
+                            <th>{{ __('Task') }}</th>
+                            <th>{{ __('Category') }}</th>
+                            <th>{{ __('Deleted') }}</th>
+                            <th class="text-end">{{ __('Actions') }}</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -38,29 +38,34 @@
                                 <td class="fw-semibold">{{ $task->title }}</td>
                                 <td>
                                     @if ($task->category)
-                                        {{ $task->category->name }}
+                                        {{ __($task->category->name) }}
                                     @else
                                         <span class="text-secondary">—</span>
                                     @endif
                                 </td>
                                 <td>{{ $task->deleted_at?->diffForHumans() }}</td>
-                                <td class="text-end text-nowrap">
-                                    <form method="POST" action="{{ route('tasks.restore', $task) }}" class="d-inline">
-                                        @csrf
-                                        <button type="submit" class="btn btn-sm btn-outline-success">Restore</button>
-                                    </form>
-                                    <form
-                                        method="POST"
-                                        action="{{ route('tasks.force-delete', $task) }}"
-                                        class="d-inline"
-                                        data-confirm-delete
-                                        data-confirm-title="Permanently delete?"
-                                        data-confirm-text="This cannot be undone."
-                                    >
-                                        @csrf
-                                        @method('DELETE')
-                                        <button type="submit" class="btn btn-sm btn-outline-danger">Delete forever</button>
-                                    </form>
+                                <td class="text-end">
+                                    <div class="action-group">
+                                        <form method="POST" action="{{ route('tasks.restore', $task) }}">
+                                            @csrf
+                                            <button type="submit" class="btn btn-soft btn-soft-success btn-sm">
+                                                <i class="bi bi-arrow-counterclockwise"></i> {{ __('Restore') }}
+                                            </button>
+                                        </form>
+                                        <form
+                                            method="POST"
+                                            action="{{ route('tasks.force-delete', $task) }}"
+                                            data-confirm-delete
+                                            data-confirm-title="{{ __('Permanently delete?') }}"
+                                            data-confirm-text="{{ __('This cannot be undone.') }}"
+                                        >
+                                            @csrf
+                                            @method('DELETE')
+                                            <button type="submit" class="btn btn-soft btn-soft-danger btn-sm">
+                                                <i class="bi bi-trash"></i> {{ __('Delete forever') }}
+                                            </button>
+                                        </form>
+                                    </div>
                                 </td>
                             </tr>
                         @endforeach
