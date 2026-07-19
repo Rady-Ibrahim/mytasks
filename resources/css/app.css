@@ -217,11 +217,39 @@ body {
     margin-inline: 0.15rem;
 }
 
-.topnav-user {
-    max-width: 9rem;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    white-space: nowrap;
+.locale-toggle-label {
+    font-size: 0.72rem;
+    font-weight: 800;
+    letter-spacing: 0.02em;
+    line-height: 1;
+}
+
+.guest-locale-bar {
+    position: absolute;
+    top: 1rem;
+    inset-inline-end: 1rem;
+    z-index: 5;
+}
+
+.guest-locale-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 2.5rem;
+    height: 2.5rem;
+    padding: 0 0.65rem;
+    border: 1px solid rgba(255, 255, 255, 0.28);
+    border-radius: 0.8rem;
+    background: rgba(255, 255, 255, 0.12);
+    color: #fff;
+    backdrop-filter: blur(8px);
+    transition: background 0.2s ease, transform 0.15s ease;
+}
+
+.guest-locale-btn:hover {
+    background: rgba(255, 255, 255, 0.22);
+    color: #fff;
+    transform: translateY(-1px);
 }
 
 [data-bs-theme='dark'] .topnav-icon:hover,

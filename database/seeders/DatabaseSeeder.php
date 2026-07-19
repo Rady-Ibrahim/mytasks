@@ -16,6 +16,7 @@ class DatabaseSeeder extends Seeder
                 'name' => 'Test User',
                 'password' => 'password',
                 'theme' => 'light',
+                'locale' => 'ar',
                 'email_verified_at' => now(),
             ]
         );

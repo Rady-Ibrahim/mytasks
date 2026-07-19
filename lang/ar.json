@@ -215,5 +215,7 @@
     "Your reminder for \":title\" is due.": "حان موعد تذكيرك لـ \":title\".",
     "\":title\" is due today.": "المهمة \":title\" مستحقة اليوم.",
     "\":title\" is overdue.": "المهمة \":title\" متأخرة.",
-    "You completed \":title\".": "أكملت المهمة \":title\"."
+    "You completed \":title\".": "أكملت المهمة \":title\".",
+    "Switch to :language": "التبديل إلى :language",
+    "Language updated to :language.": "تم تحديث اللغة إلى :language."
 }

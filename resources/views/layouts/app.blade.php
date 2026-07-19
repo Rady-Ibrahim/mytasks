@@ -96,6 +96,8 @@
                             </button>
                         </form>
 
+                        @include('partials.locale-switcher')
+
                         <a href="{{ route('profile.edit') }}" class="topnav-icon" title="{{ __('Profile') }}">
                             <i class="bi bi-person"></i>
                         </a>
@@ -111,6 +113,7 @@
                             </button>
                         </form>
                     @else
+                        @include('partials.locale-switcher')
                         <a href="{{ route('login') }}" class="btn btn-outline-primary btn-sm">{{ __('Log in') }}</a>
                         <a href="{{ route('register') }}" class="btn btn-primary btn-sm">{{ __('Register') }}</a>
                     @endauth
