@@ -1,0 +1,52 @@
+@import 'bootstrap/dist/css/bootstrap.min.css';
+@import 'bootstrap-icons/font/bootstrap-icons.min.css';
+
+:root {
+    --mytasks-sidebar-width: 260px;
+    --mytasks-brand: #0d6efd;
+    --mytasks-surface: #f5f7fb;
+}
+
+[data-bs-theme='dark'] {
+    --mytasks-surface: #121418;
+}
+
+body {
+    min-height: 100vh;
+    background-color: var(--mytasks-surface);
+}
+
+.app-shell {
+    min-height: 100vh;
+}
+
+.app-sidebar {
+    width: var(--mytasks-sidebar-width);
+}
+
+.app-brand {
+    font-weight: 700;
+    letter-spacing: -0.02em;
+}
+
+.empty-state {
+    padding: 3rem 1.5rem;
+    text-align: center;
+    color: var(--bs-secondary-color);
+}
+
+.loading-indicator {
+    display: inline-block;
+    width: 1.25rem;
+    height: 1.25rem;
+    border: 0.15rem solid currentColor;
+    border-right-color: transparent;
+    border-radius: 50%;
+    animation: mytasks-spin 0.75s linear infinite;
+}
+
+@keyframes mytasks-spin {
+    to {
+        transform: rotate(360deg);
+    }
+}
