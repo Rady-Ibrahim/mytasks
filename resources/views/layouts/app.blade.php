@@ -58,6 +58,15 @@
                             </div>
                         </form>
 
+                        <a href="{{ route('notifications.index') }}" class="btn btn-outline-secondary btn-sm position-relative" title="Notifications">
+                            <i class="bi bi-bell"></i>
+                            @if (($unreadNotificationsCount ?? 0) > 0)
+                                <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
+                                    {{ $unreadNotificationsCount > 9 ? '9+' : $unreadNotificationsCount }}
+                                </span>
+                            @endif
+                        </a>
+
                         @php
                             $currentTheme = auth()->user()->theme ?? \App\Enums\Theme::Light;
                             $nextTheme = $currentTheme->toggle();

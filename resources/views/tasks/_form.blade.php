@@ -93,7 +93,7 @@
             id="due_date"
             type="date"
             name="due_date"
-            value="{{ old('due_date', isset($task) && $task->due_date ? $task->due_date->format('Y-m-d') : '') }}"
+            value="{{ old('due_date', isset($task) && $task->due_date ? $task->due_date->format('Y-m-d') : ($defaultDueDate ?? '')) }}"
             class="form-control @error('due_date') is-invalid @enderror"
         >
         @error('due_date')

@@ -29,10 +29,10 @@
 | 5 | Tasks (CRUD Core) | ✅ Done |
 | 6 | Task Actions & Soft Deletes | ✅ Done |
 | 7 | Search, Filters & Sort | ✅ Done |
-| 8 | Dashboard & Statistics | ⬜ Pending |
-| 9 | Calendar Views | ⬜ Pending |
-| 10 | Reminders & In-App Notifications | ⬜ Pending |
-| 11 | Polish, Seeders & Final QA | ⬜ Pending |
+| 8 | Dashboard & Statistics | ✅ Done |
+| 9 | Calendar Views | ✅ Done |
+| 10 | Reminders & In-App Notifications | ✅ Done |
+| 11 | Polish, Seeders & Final QA | ✅ Done |
 
 **Legend:** ⬜ Pending · 🔄 In Progress · ✅ Done
 

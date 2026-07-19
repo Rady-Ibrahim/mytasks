@@ -5,6 +5,7 @@ namespace App\Services;
 use App\Enums\TaskStatus;
 use App\Models\Task;
 use App\Models\User;
+use App\Notifications\TaskCompletedNotification;
 
 class TaskService
 {
@@ -33,7 +34,11 @@ class TaskService
             'completed_at' => now(),
         ]);
 
-        return $task->refresh();
+        $task = $task->refresh();
+
+        $task->user->notify(new TaskCompletedNotification($task));
+
+        return $task;
     }
 
     public function reopen(Task $task): Task

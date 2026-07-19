@@ -17,8 +17,11 @@
     <a class="nav-link {{ request()->routeIs('categories.*') ? 'active' : '' }}" href="{{ route('categories.index') }}">
         <i class="bi bi-tags me-2"></i> Categories
     </a>
-    <a class="nav-link disabled" href="#" aria-disabled="true">
+    <a class="nav-link {{ request()->routeIs('calendar') ? 'active' : '' }}" href="{{ route('calendar') }}">
         <i class="bi bi-calendar3 me-2"></i> Calendar
+    </a>
+    <a class="nav-link {{ request()->routeIs('notifications.*') ? 'active' : '' }}" href="{{ route('notifications.index') }}">
+        <i class="bi bi-bell me-2"></i> Notifications
     </a>
     <a class="nav-link {{ request()->routeIs('profile.*') ? 'active' : '' }}" href="{{ route('profile.edit') }}">
         <i class="bi bi-person-circle me-2"></i> Profile

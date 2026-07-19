@@ -18,8 +18,7 @@ class TaskController extends Controller
     public function __construct(
         private readonly TaskService $tasks,
         private readonly TaskQueryService $taskQuery,
-    ) {
-    }
+    ) {}
 
     public function index(Request $request): View
     {
@@ -56,7 +55,10 @@ class TaskController extends Controller
     {
         $this->authorize('create', Task::class);
 
-        return view('tasks.create', $this->formData($request));
+        return view('tasks.create', array_merge(
+            $this->formData($request),
+            ['defaultDueDate' => $request->string('due_date')->toString() ?: null]
+        ));
     }
 
     public function store(StoreTaskRequest $request): RedirectResponse

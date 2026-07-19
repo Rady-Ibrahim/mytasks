@@ -17,5 +17,7 @@ class DatabaseSeeder extends Seeder
         ]);
 
         $defaultCategories->seedFor($user);
+
+        $this->call(DemoSeeder::class);
     }
 }
