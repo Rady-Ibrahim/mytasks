@@ -36,9 +36,19 @@ class ProfileController extends Controller
             $data['avatar'] = $request->file('avatar')->store('avatars', 'public');
         }
 
-        $user->fill($data)->save();
+        $user->fill($data);
 
-        return back()->with('success', 'Profile updated successfully.');
+        if ($user->isDirty('email')) {
+            $user->email_verified_at = null;
+        }
+
+        $user->save();
+
+        if ($user->wasChanged('email')) {
+            $user->sendEmailVerificationNotification();
+        }
+
+        return back()->with('success', __('Profile updated successfully.'));
     }
 
     public function updatePassword(UpdatePasswordRequest $request): RedirectResponse
@@ -47,6 +57,6 @@ class ProfileController extends Controller
             'password' => $request->validated('password'),
         ]);
 
-        return back()->with('success', 'Password changed successfully.');
+        return back()->with('success', __('Password changed successfully.'));
     }
 }

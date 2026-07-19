@@ -17,6 +17,6 @@ class ThemeController extends Controller
             'theme' => $theme,
         ])->save();
 
-        return back()->with('success', 'Theme updated to '.$theme->label().' mode.');
+        return back()->with('success', __('Theme updated to :theme mode.', ['theme' => $theme->label()]));
     }
 }

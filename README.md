@@ -4,7 +4,9 @@ Personal Daily Task Manager built with **Laravel 12**, **Blade**, **Vite**, **Bo
 
 ## Features
 
-- Authentication (register, login, logout, password reset)
+- Authentication (register, login, logout, password reset, email verification)
+- Rate limiting on login/register/password reset
+- Full Arabic UI with RTL support (`APP_LOCALE=ar`)
 - Profile (avatar, password, theme preference)
 - Categories with colors and icons
 - Tasks CRUD with complete / reopen / duplicate / trash

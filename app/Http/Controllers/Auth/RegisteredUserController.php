@@ -30,7 +30,7 @@ class RegisteredUserController extends Controller
 
         $request->session()->regenerate();
 
-        return redirect()->route('dashboard')
-            ->with('success', 'Account created successfully.');
+        return redirect()->route('verification.notice')
+            ->with('success', __('Account created successfully. Please verify your email.'));
     }
 }

@@ -12,10 +12,10 @@ enum TaskStatus: string
     public function label(): string
     {
         return match ($this) {
-            self::Pending => 'Pending',
-            self::InProgress => 'In Progress',
-            self::Completed => 'Completed',
-            self::Cancelled => 'Cancelled',
+            self::Pending => __('Pending'),
+            self::InProgress => __('In Progress'),
+            self::Completed => __('Completed'),
+            self::Cancelled => __('Cancelled'),
         };
     }
 

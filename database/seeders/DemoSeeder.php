@@ -20,6 +20,7 @@ class DemoSeeder extends Seeder
                 'name' => 'Demo User',
                 'password' => 'password',
                 'theme' => 'light',
+                'email_verified_at' => now(),
             ]
         );
 

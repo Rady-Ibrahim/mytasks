@@ -4,19 +4,22 @@ import Swal from 'sweetalert2';
 window.Swal = Swal;
 
 window.confirmAction = function (options = {}) {
+    const i18n = window.appI18n || {};
+
     return Swal.fire({
-        title: options.title ?? 'Are you sure?',
-        text: options.text ?? 'This action cannot be undone.',
+        title: options.title ?? i18n.areYouSure ?? 'Are you sure?',
+        text: options.text ?? i18n.cannotUndo ?? 'This action cannot be undone.',
         icon: options.icon ?? 'warning',
         showCancelButton: true,
-        confirmButtonText: options.confirmButtonText ?? 'Yes',
-        cancelButtonText: options.cancelButtonText ?? 'Cancel',
+        confirmButtonText: options.confirmButtonText ?? i18n.delete ?? i18n.yes ?? 'Yes',
+        cancelButtonText: options.cancelButtonText ?? i18n.cancel ?? 'Cancel',
         confirmButtonColor: options.confirmButtonColor ?? '#dc3545',
     });
 };
 
 document.addEventListener('DOMContentLoaded', () => {
     const toastEl = document.getElementById('app-toast');
+    const i18n = window.appI18n || {};
 
     if (toastEl && window.bootstrap?.Toast) {
         const toast = window.bootstrap.Toast.getOrCreateInstance(toastEl);
@@ -37,9 +40,9 @@ document.addEventListener('DOMContentLoaded', () => {
             event.preventDefault();
 
             const result = await window.confirmAction({
-                title: form.dataset.confirmTitle || 'Are you sure?',
-                text: form.dataset.confirmText || 'This action cannot be undone.',
-                confirmButtonText: 'Delete',
+                title: form.dataset.confirmTitle || i18n.areYouSure,
+                text: form.dataset.confirmText || i18n.cannotUndo,
+                confirmButtonText: i18n.delete,
             });
 
             if (result.isConfirmed) {

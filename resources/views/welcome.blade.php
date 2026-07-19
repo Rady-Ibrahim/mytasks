@@ -12,14 +12,14 @@
                         <span class="app-brand fs-4">{{ config('app.name', 'MyTasks') }}</span>
                     </div>
 
-                    <h1 class="h2 mb-3">Personal Daily Task Manager</h1>
+                    <h1 class="h2 mb-3">{{ __('Personal Daily Task Manager') }}</h1>
                     <p class="lead text-secondary mb-4">
-                        Organize tasks, categories, reminders, and your daily productivity in one clean workspace.
+                        {{ __('Organize tasks, categories, reminders, and your daily productivity in one clean workspace.') }}
                     </p>
 
                     <div class="d-flex flex-wrap gap-2 mb-4">
-                        <a href="{{ route('register') }}" class="btn btn-primary">Get started</a>
-                        <a href="{{ route('login') }}" class="btn btn-outline-primary">Log in</a>
+                        <a href="{{ route('register') }}" class="btn btn-primary">{{ __('Get started') }}</a>
+                        <a href="{{ route('login') }}" class="btn btn-outline-primary">{{ __('Log in') }}</a>
                     </div>
 
                     <div class="d-flex flex-wrap gap-2">

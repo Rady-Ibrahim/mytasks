@@ -1,11 +1,17 @@
 <!DOCTYPE html>
-<html lang="{{ str_replace('_', '-', app()->getLocale()) }}" data-bs-theme="{{ auth()->user()?->theme?->value ?? 'light' }}">
+<html lang="{{ str_replace('_', '-', app()->getLocale()) }}" dir="{{ app()->getLocale() === 'ar' ? 'rtl' : 'ltr' }}" data-bs-theme="{{ auth()->user()?->theme?->value ?? 'light' }}">
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="csrf-token" content="{{ csrf_token() }}">
 
     <title>@yield('title', config('app.name', 'MyTasks'))</title>
+
+    @if (app()->getLocale() === 'ar')
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.rtl.min.css">
+    @else
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css">
+    @endif
 
     @vite(['resources/css/app.css', 'resources/js/app.js'])
 </head>
@@ -20,7 +26,7 @@
                 <h2 class="offcanvas-title h5 app-brand" id="appSidebarOffcanvasLabel">
                     <i class="bi bi-check2-square me-1 text-primary"></i>{{ config('app.name') }}
                 </h2>
-                <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+                <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="{{ __('Cancel') }}"></button>
             </div>
             <div class="offcanvas-body p-3">
                 @include('partials.sidebar-nav', ['compact' => true])
@@ -52,13 +58,13 @@
                                     name="q"
                                     value="{{ request('q') }}"
                                     class="form-control"
-                                    placeholder="Search tasks..."
-                                    aria-label="Search tasks"
+                                    placeholder="{{ __('Search tasks...') }}"
+                                    aria-label="{{ __('Search tasks...') }}"
                                 >
                             </div>
                         </form>
 
-                        <a href="{{ route('notifications.index') }}" class="btn btn-outline-secondary btn-sm position-relative" title="Notifications">
+                        <a href="{{ route('notifications.index') }}" class="btn btn-outline-secondary btn-sm position-relative" title="{{ __('Notifications') }}">
                             <i class="bi bi-bell"></i>
                             @if (($unreadNotificationsCount ?? 0) > 0)
                                 <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
@@ -78,7 +84,7 @@
                             <button
                                 type="submit"
                                 class="btn btn-outline-secondary btn-sm"
-                                title="Switch to {{ $nextTheme->label() }} mode"
+                                title="{{ __('Switch to :theme mode', ['theme' => $nextTheme->label()]) }}"
                                 data-testid="theme-toggle"
                             >
                                 <i class="bi {{ $currentTheme === \App\Enums\Theme::Dark ? 'bi-sun' : 'bi-moon-stars' }}"></i>
@@ -86,19 +92,19 @@
                         </form>
 
                         <span class="small text-secondary d-none d-md-inline">{{ auth()->user()->name }}</span>
-                        <a href="{{ route('profile.edit') }}" class="btn btn-outline-secondary btn-sm" title="Profile">
+                        <a href="{{ route('profile.edit') }}" class="btn btn-outline-secondary btn-sm" title="{{ __('Profile') }}">
                             <i class="bi bi-person"></i>
                         </a>
                         <form method="POST" action="{{ route('logout') }}">
                             @csrf
                             <button type="submit" class="btn btn-outline-secondary btn-sm">
                                 <i class="bi bi-box-arrow-right"></i>
-                                <span class="d-none d-sm-inline">Log out</span>
+                                <span class="d-none d-sm-inline">{{ __('Log out') }}</span>
                             </button>
                         </form>
                     @else
-                        <a href="{{ route('login') }}" class="btn btn-outline-primary btn-sm">Log in</a>
-                        <a href="{{ route('register') }}" class="btn btn-primary btn-sm">Register</a>
+                        <a href="{{ route('login') }}" class="btn btn-outline-primary btn-sm">{{ __('Log in') }}</a>
+                        <a href="{{ route('register') }}" class="btn btn-primary btn-sm">{{ __('Register') }}</a>
                     @endauth
                 </div>
             </header>
@@ -112,6 +118,17 @@
     </div>
 
     @include('partials.loading')
+
+    <script>
+        window.appI18n = {
+            areYouSure: @json(__('Are you sure?')),
+            cannotUndo: @json(__('This action cannot be undone.')),
+            yes: @json(__('Yes')),
+            cancel: @json(__('Cancel')),
+            delete: @json(__('Delete')),
+            loading: @json(__('Loading...')),
+        };
+    </script>
 
     @stack('scripts')
 </body>

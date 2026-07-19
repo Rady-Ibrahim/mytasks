@@ -27,14 +27,14 @@ class NotificationController extends Controller
         $item = $this->findOwnedNotification($request, $notification);
         $item->markAsRead();
 
-        return back()->with('success', 'Notification marked as read.');
+        return back()->with('success', __('Notification marked as read.'));
     }
 
     public function markAllAsRead(Request $request): RedirectResponse
     {
         $request->user()->unreadNotifications->markAsRead();
 
-        return back()->with('success', 'All notifications marked as read.');
+        return back()->with('success', __('All notifications marked as read.'));
     }
 
     private function findOwnedNotification(Request $request, string $id): DatabaseNotification

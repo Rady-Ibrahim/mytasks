@@ -1,20 +1,20 @@
 @extends('layouts.app')
 
-@section('title', 'Tasks — '.config('app.name'))
-@section('page-title', 'Tasks')
+@section('title', __('Tasks').' — '.config('app.name'))
+@section('page-title', __('Tasks'))
 
 @section('content')
     <div class="d-flex flex-wrap justify-content-between align-items-center gap-3 mb-4">
         <div>
-            <h1 class="h3 mb-1">Tasks</h1>
-            <p class="text-secondary mb-0">Search, filter, and sort your tasks.</p>
+            <h1 class="h3 mb-1">{{ __('Tasks') }}</h1>
+            <p class="text-secondary mb-0">{{ __('Search, filter, and sort your tasks.') }}</p>
         </div>
         <div class="d-flex gap-2">
             <a href="{{ route('tasks.trash') }}" class="btn btn-outline-secondary">
-                <i class="bi bi-trash me-1"></i> Trash
+                <i class="bi bi-trash me-1"></i> {{ __('Trash') }}
             </a>
             <a href="{{ route('tasks.create') }}" class="btn btn-primary">
-                <i class="bi bi-plus-lg me-1"></i> New task
+                <i class="bi bi-plus-lg me-1"></i> {{ __('New task') }}
             </a>
         </div>
     </div>
@@ -23,13 +23,13 @@
 
     @if ($tasks->isEmpty())
         <x-empty-state
-            title="No tasks found"
-            message="Try adjusting your search or filters, or create a new task."
+            title="{{ __('No tasks found') }}"
+            message="{{ __('Try adjusting your search or filters, or create a new task.') }}"
             icon="bi-list-task"
         >
             <div class="d-flex justify-content-center gap-2 mt-3">
-                <a href="{{ route('tasks.index') }}" class="btn btn-outline-secondary">Clear filters</a>
-                <a href="{{ route('tasks.create') }}" class="btn btn-primary">Create task</a>
+                <a href="{{ route('tasks.index') }}" class="btn btn-outline-secondary">{{ __('Clear filters') }}</a>
+                <a href="{{ route('tasks.create') }}" class="btn btn-primary">{{ __('Create task') }}</a>
             </div>
         </x-empty-state>
     @else
@@ -38,12 +38,12 @@
                 <table class="table table-hover align-middle mb-0">
                     <thead class="table-light">
                         <tr>
-                            <th>Task</th>
-                            <th>Category</th>
-                            <th>Priority</th>
-                            <th>Status</th>
-                            <th>Due</th>
-                            <th class="text-end">Actions</th>
+                            <th>{{ __('Task') }}</th>
+                            <th>{{ __('Category') }}</th>
+                            <th>{{ __('Priority') }}</th>
+                            <th>{{ __('Status') }}</th>
+                            <th>{{ __('Due') }}</th>
+                            <th class="text-end">{{ __('Actions') }}</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -109,18 +109,18 @@
                                         </button>
                                     </form>
 
-                                    <a href="{{ route('tasks.edit', $task) }}" class="btn btn-sm btn-outline-secondary">Edit</a>
+                                    <a href="{{ route('tasks.edit', $task) }}" class="btn btn-sm btn-outline-secondary">{{ __('Edit') }}</a>
                                     <form
                                         method="POST"
                                         action="{{ route('tasks.destroy', $task) }}"
                                         class="d-inline"
                                         data-confirm-delete
-                                        data-confirm-title="Delete task?"
-                                        data-confirm-text="This will move the task to trash."
+                                        data-confirm-title="{{ __('Delete task?') }}"
+                                        data-confirm-text="{{ __('This will move the task to trash.') }}"
                                     >
                                         @csrf
                                         @method('DELETE')
-                                        <button type="submit" class="btn btn-sm btn-outline-danger">Delete</button>
+                                        <button type="submit" class="btn btn-sm btn-outline-danger">{{ __('Delete') }}</button>
                                     </form>
                                 </td>
                             </tr>

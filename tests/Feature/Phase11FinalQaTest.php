@@ -39,9 +39,10 @@ class Phase11FinalQaTest extends TestCase
             'email' => 'happy@example.com',
             'password' => 'password123',
             'password_confirmation' => 'password123',
-        ])->assertRedirect(route('dashboard'));
+        ])->assertRedirect(route('verification.notice'));
 
         $user = User::query()->where('email', 'happy@example.com')->firstOrFail();
+        $user->forceFill(['email_verified_at' => now()])->save();
 
         $this->actingAs($user)
             ->post(route('tasks.store'), [
@@ -61,7 +62,7 @@ class Phase11FinalQaTest extends TestCase
         $this->actingAs($user)
             ->get(route('dashboard'))
             ->assertOk()
-            ->assertSee('Welcome, Happy Path')
+            ->assertSee(__('Welcome, :name', ['name' => 'Happy Path']))
             ->assertSee('Ship MyTasks');
 
         $this->actingAs($user)

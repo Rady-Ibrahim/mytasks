@@ -22,8 +22,8 @@ class Phase1AuthTest extends TestCase
 
     public function test_guest_can_view_register_and_login_pages(): void
     {
-        $this->get(route('register'))->assertOk()->assertSee('Create your account');
-        $this->get(route('login'))->assertOk()->assertSee('Welcome back');
+        $this->get(route('register'))->assertOk()->assertSee(__('Create your account'));
+        $this->get(route('login'))->assertOk()->assertSee(__('Welcome back'));
     }
 
     public function test_user_can_register(): void
@@ -35,12 +35,13 @@ class Phase1AuthTest extends TestCase
             'password_confirmation' => 'password123',
         ]);
 
-        $response->assertRedirect(route('dashboard'));
+        $response->assertRedirect(route('verification.notice'));
         $this->assertAuthenticated();
         $this->assertDatabaseHas('users', [
             'email' => 'ada@example.com',
             'name' => 'Ada Lovelace',
         ]);
+        $this->assertNull(\App\Models\User::where('email', 'ada@example.com')->first()->email_verified_at);
     }
 
     public function test_registration_validation_fails_for_invalid_data(): void
@@ -160,6 +161,6 @@ class Phase1AuthTest extends TestCase
         $this->actingAs($user)
             ->get(route('dashboard'))
             ->assertOk()
-            ->assertSee('Welcome, '.$user->name, false);
+            ->assertSee(__('Welcome, :name', ['name' => $user->name]), false);
     }
 }

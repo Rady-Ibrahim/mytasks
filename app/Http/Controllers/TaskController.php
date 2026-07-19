@@ -67,7 +67,7 @@ class TaskController extends Controller
 
         return redirect()
             ->route('tasks.index')
-            ->with('success', 'Task created successfully.');
+            ->with('success', __('Task created successfully.'));
     }
 
     public function show(Task $task): View
@@ -95,7 +95,7 @@ class TaskController extends Controller
 
         return redirect()
             ->route('tasks.show', $task)
-            ->with('success', 'Task updated successfully.');
+            ->with('success', __('Task updated successfully.'));
     }
 
     public function destroy(Task $task): RedirectResponse
@@ -106,7 +106,7 @@ class TaskController extends Controller
 
         return redirect()
             ->route('tasks.index')
-            ->with('success', 'Task moved to trash.');
+            ->with('success', __('Task moved to trash.'));
     }
 
     public function complete(Task $task): RedirectResponse
@@ -115,7 +115,7 @@ class TaskController extends Controller
 
         $this->tasks->complete($task);
 
-        return back()->with('success', 'Task marked as completed.');
+        return back()->with('success', __('Task marked as completed.'));
     }
 
     public function reopen(Task $task): RedirectResponse
@@ -124,7 +124,7 @@ class TaskController extends Controller
 
         $this->tasks->reopen($task);
 
-        return back()->with('success', 'Task reopened.');
+        return back()->with('success', __('Task reopened.'));
     }
 
     public function duplicate(Task $task): RedirectResponse
@@ -135,7 +135,7 @@ class TaskController extends Controller
 
         return redirect()
             ->route('tasks.show', $copy)
-            ->with('success', 'Task duplicated successfully.');
+            ->with('success', __('Task duplicated successfully.'));
     }
 
     public function restore(Task $task): RedirectResponse
@@ -146,7 +146,7 @@ class TaskController extends Controller
 
         return redirect()
             ->route('tasks.trash')
-            ->with('success', 'Task restored successfully.');
+            ->with('success', __('Task restored successfully.'));
     }
 
     public function forceDelete(Task $task): RedirectResponse
@@ -157,7 +157,7 @@ class TaskController extends Controller
 
         return redirect()
             ->route('tasks.trash')
-            ->with('success', 'Task permanently deleted.');
+            ->with('success', __('Task permanently deleted.'));
     }
 
     /**

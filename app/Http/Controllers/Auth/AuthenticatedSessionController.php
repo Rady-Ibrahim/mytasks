@@ -23,7 +23,7 @@ class AuthenticatedSessionController extends Controller
         $request->session()->regenerate();
 
         return redirect()->intended(route('dashboard'))
-            ->with('success', 'Welcome back!');
+            ->with('success', __('Welcome back!'));
     }
 
     public function destroy(Request $request): RedirectResponse
@@ -34,6 +34,6 @@ class AuthenticatedSessionController extends Controller
         $request->session()->regenerateToken();
 
         return redirect()->route('login')
-            ->with('success', 'You have been logged out.');
+            ->with('success', __('You have been logged out.'));
     }
 }

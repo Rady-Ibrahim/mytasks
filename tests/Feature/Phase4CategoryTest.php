@@ -128,7 +128,7 @@ class Phase4CategoryTest extends TestCase
             'email' => 'newuser@example.com',
             'password' => 'password123',
             'password_confirmation' => 'password123',
-        ])->assertRedirect(route('dashboard'));
+        ])->assertRedirect(route('verification.notice'));
 
         $user = User::query()->where('email', 'newuser@example.com')->firstOrFail();
 

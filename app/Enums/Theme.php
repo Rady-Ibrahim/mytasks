@@ -10,8 +10,8 @@ enum Theme: string
     public function label(): string
     {
         return match ($this) {
-            self::Light => 'Light',
-            self::Dark => 'Dark',
+            self::Light => __('Light'),
+            self::Dark => __('Dark'),
         };
     }
 

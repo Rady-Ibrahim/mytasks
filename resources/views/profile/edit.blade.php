@@ -1,14 +1,14 @@
 @extends('layouts.app')
 
-@section('title', 'Profile — '.config('app.name'))
-@section('page-title', 'Profile')
+@section('title', __('Profile').' — '.config('app.name'))
+@section('page-title', __('Profile'))
 
 @section('content')
     <div class="row g-4">
         <div class="col-lg-7">
             <div class="card border-0 shadow-sm">
                 <div class="card-body p-4">
-                    <h1 class="h5 mb-4">Profile details</h1>
+                    <h1 class="h5 mb-4">{{ __('Profile details') }}</h1>
 
                     <form method="POST" action="{{ route('profile.update') }}" enctype="multipart/form-data">
                         @csrf
@@ -31,7 +31,7 @@
                         </div>
 
                         <div class="mb-3">
-                            <label for="name" class="form-label">Name</label>
+                            <label for="name" class="form-label">{{ __('Name') }}</label>
                             <input
                                 id="name"
                                 type="text"
@@ -46,7 +46,7 @@
                         </div>
 
                         <div class="mb-3">
-                            <label for="email" class="form-label">Email</label>
+                            <label for="email" class="form-label">{{ __('Email') }}</label>
                             <input
                                 id="email"
                                 type="email"
@@ -61,7 +61,7 @@
                         </div>
 
                         <div class="mb-3">
-                            <label for="avatar" class="form-label">Profile picture</label>
+                            <label for="avatar" class="form-label">{{ __('Profile picture') }}</label>
                             <input
                                 id="avatar"
                                 type="file"
@@ -77,11 +77,11 @@
                         @if ($user->avatar)
                             <div class="form-check mb-4">
                                 <input class="form-check-input" type="checkbox" value="1" name="remove_avatar" id="remove_avatar">
-                                <label class="form-check-label" for="remove_avatar">Remove current picture</label>
+                                <label class="form-check-label" for="remove_avatar">{{ __('Remove current picture') }}</label>
                             </div>
                         @endif
 
-                        <button type="submit" class="btn btn-primary">Save profile</button>
+                        <button type="submit" class="btn btn-primary">{{ __('Save profile') }}</button>
                     </form>
                 </div>
             </div>
@@ -90,14 +90,14 @@
         <div class="col-lg-5">
             <div class="card border-0 shadow-sm">
                 <div class="card-body p-4">
-                    <h2 class="h5 mb-4">Change password</h2>
+                    <h2 class="h5 mb-4">{{ __('Change password') }}</h2>
 
                     <form method="POST" action="{{ route('profile.password') }}">
                         @csrf
                         @method('PUT')
 
                         <div class="mb-3">
-                            <label for="current_password" class="form-label">Current password</label>
+                            <label for="current_password" class="form-label">{{ __('Current password') }}</label>
                             <input
                                 id="current_password"
                                 type="password"
@@ -112,7 +112,7 @@
                         </div>
 
                         <div class="mb-3">
-                            <label for="password" class="form-label">New password</label>
+                            <label for="password" class="form-label">{{ __('New password') }}</label>
                             <input
                                 id="password"
                                 type="password"
@@ -127,7 +127,7 @@
                         </div>
 
                         <div class="mb-4">
-                            <label for="password_confirmation" class="form-label">Confirm new password</label>
+                            <label for="password_confirmation" class="form-label">{{ __('Confirm new password') }}</label>
                             <input
                                 id="password_confirmation"
                                 type="password"
@@ -138,7 +138,7 @@
                             >
                         </div>
 
-                        <button type="submit" class="btn btn-outline-primary">Update password</button>
+                        <button type="submit" class="btn btn-outline-primary">{{ __('Update password') }}</button>
                     </form>
                 </div>
             </div>

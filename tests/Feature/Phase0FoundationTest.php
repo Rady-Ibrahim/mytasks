@@ -20,7 +20,7 @@ class Phase0FoundationTest extends TestCase
 
         $response->assertOk();
         $response->assertSee('MyTasks', false);
-        $response->assertSee('Personal Daily Task Manager', false);
+        $response->assertSee(__('Personal Daily Task Manager'), false);
         $response->assertSee('data-testid="home-hero"', false);
     }
 
@@ -34,10 +34,11 @@ class Phase0FoundationTest extends TestCase
 
         $css = File::get(resource_path('css/app.css'));
         $js = File::get(resource_path('js/app.js'));
+        $appLayout = File::get(resource_path('views/layouts/app.blade.php'));
         $packageJson = File::json(base_path('package.json'));
 
-        $this->assertStringContainsString('bootstrap/dist/css/bootstrap.min.css', $css);
         $this->assertStringContainsString('bootstrap-icons', $css);
+        $this->assertStringContainsString('bootstrap@5.3.3/dist/css/bootstrap', $appLayout);
         $this->assertStringContainsString('sweetalert2', $js);
         $this->assertArrayHasKey('bootstrap', $packageJson['dependencies'] ?? []);
         $this->assertArrayHasKey('bootstrap-icons', $packageJson['dependencies'] ?? []);

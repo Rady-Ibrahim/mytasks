@@ -23,7 +23,7 @@
 
 @if ($errors->any())
     <div class="alert alert-danger" role="alert">
-        <div class="fw-semibold mb-1">Please fix the following:</div>
+        <div class="text-danger small mb-1">{{ __('Please fix the following:') }}</div>
         <ul class="mb-0">
             @foreach ($errors->all() as $error)
                 <li>{{ $error }}</li>
