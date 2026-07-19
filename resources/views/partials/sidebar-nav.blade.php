@@ -14,7 +14,7 @@
     <a class="nav-link disabled" href="#" aria-disabled="true">
         <i class="bi bi-list-task me-2"></i> Tasks
     </a>
-    <a class="nav-link disabled" href="#" aria-disabled="true">
+    <a class="nav-link {{ request()->routeIs('categories.*') ? 'active' : '' }}" href="{{ route('categories.index') }}">
         <i class="bi bi-tags me-2"></i> Categories
     </a>
     <a class="nav-link disabled" href="#" aria-disabled="true">

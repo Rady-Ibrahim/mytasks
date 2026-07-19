@@ -31,4 +31,20 @@ document.addEventListener('DOMContentLoaded', () => {
             }
         });
     });
+
+    document.querySelectorAll('form[data-confirm-delete]').forEach((form) => {
+        form.addEventListener('submit', async (event) => {
+            event.preventDefault();
+
+            const result = await window.confirmAction({
+                title: form.dataset.confirmTitle || 'Are you sure?',
+                text: form.dataset.confirmText || 'This action cannot be undone.',
+                confirmButtonText: 'Delete',
+            });
+
+            if (result.isConfirmed) {
+                form.submit();
+            }
+        });
+    });
 });
