@@ -27,7 +27,7 @@
 | 3 | User Profile | ✅ Done |
 | 4 | Categories | ✅ Done |
 | 5 | Tasks (CRUD Core) | ✅ Done |
-| 6 | Task Actions & Soft Deletes | ⬜ Pending |
+| 6 | Task Actions & Soft Deletes | ✅ Done |
 | 7 | Search, Filters & Sort | ⬜ Pending |
 | 8 | Dashboard & Statistics | ⬜ Pending |
 | 9 | Calendar Views | ⬜ Pending |

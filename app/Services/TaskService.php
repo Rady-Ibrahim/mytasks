@@ -26,6 +26,55 @@ class TaskService
         return $task->refresh();
     }
 
+    public function complete(Task $task): Task
+    {
+        $task->update([
+            'status' => TaskStatus::Completed,
+            'completed_at' => now(),
+        ]);
+
+        return $task->refresh();
+    }
+
+    public function reopen(Task $task): Task
+    {
+        $task->update([
+            'status' => TaskStatus::Pending,
+            'completed_at' => null,
+        ]);
+
+        return $task->refresh();
+    }
+
+    public function duplicate(Task $task): Task
+    {
+        $copy = $task->replicate([
+            'completed_at',
+            'created_at',
+            'updated_at',
+            'deleted_at',
+        ]);
+
+        $copy->title = $task->title.' (Copy)';
+        $copy->status = TaskStatus::Pending;
+        $copy->completed_at = null;
+        $copy->save();
+
+        return $copy->refresh();
+    }
+
+    public function restore(Task $task): Task
+    {
+        $task->restore();
+
+        return $task->refresh();
+    }
+
+    public function forceDelete(Task $task): void
+    {
+        $task->forceDelete();
+    }
+
     /**
      * @param  array<string, mixed>  $data
      * @return array<string, mixed>

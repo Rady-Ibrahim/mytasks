@@ -9,9 +9,14 @@
             <h1 class="h3 mb-1">Tasks</h1>
             <p class="text-secondary mb-0">Create and manage your daily tasks.</p>
         </div>
-        <a href="{{ route('tasks.create') }}" class="btn btn-primary">
-            <i class="bi bi-plus-lg me-1"></i> New task
-        </a>
+        <div class="d-flex gap-2">
+            <a href="{{ route('tasks.trash') }}" class="btn btn-outline-secondary">
+                <i class="bi bi-trash me-1"></i> Trash
+            </a>
+            <a href="{{ route('tasks.create') }}" class="btn btn-primary">
+                <i class="bi bi-plus-lg me-1"></i> New task
+            </a>
+        </div>
     </div>
 
     @if ($tasks->isEmpty())
@@ -76,6 +81,29 @@
                                     @endif
                                 </td>
                                 <td class="text-end text-nowrap">
+                                    @if ($task->status !== \App\Enums\TaskStatus::Completed)
+                                        <form method="POST" action="{{ route('tasks.complete', $task) }}" class="d-inline">
+                                            @csrf
+                                            <button type="submit" class="btn btn-sm btn-outline-success" title="Complete">
+                                                <i class="bi bi-check2"></i>
+                                            </button>
+                                        </form>
+                                    @else
+                                        <form method="POST" action="{{ route('tasks.reopen', $task) }}" class="d-inline">
+                                            @csrf
+                                            <button type="submit" class="btn btn-sm btn-outline-primary" title="Reopen">
+                                                <i class="bi bi-arrow-counterclockwise"></i>
+                                            </button>
+                                        </form>
+                                    @endif
+
+                                    <form method="POST" action="{{ route('tasks.duplicate', $task) }}" class="d-inline">
+                                        @csrf
+                                        <button type="submit" class="btn btn-sm btn-outline-secondary" title="Duplicate">
+                                            <i class="bi bi-copy"></i>
+                                        </button>
+                                    </form>
+
                                     <a href="{{ route('tasks.edit', $task) }}" class="btn btn-sm btn-outline-secondary">Edit</a>
                                     <form
                                         method="POST"
@@ -83,7 +111,7 @@
                                         class="d-inline"
                                         data-confirm-delete
                                         data-confirm-title="Delete task?"
-                                        data-confirm-text="This will soft-delete the task."
+                                        data-confirm-text="This will move the task to trash."
                                     >
                                         @csrf
                                         @method('DELETE')

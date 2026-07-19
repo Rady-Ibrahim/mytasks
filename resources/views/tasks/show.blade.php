@@ -18,7 +18,30 @@
             </div>
         </div>
 
-        <div class="d-flex gap-2">
+        <div class="d-flex flex-wrap gap-2">
+            @if ($task->status !== \App\Enums\TaskStatus::Completed)
+                <form method="POST" action="{{ route('tasks.complete', $task) }}">
+                    @csrf
+                    <button type="submit" class="btn btn-success btn-sm">
+                        <i class="bi bi-check2 me-1"></i> Complete
+                    </button>
+                </form>
+            @else
+                <form method="POST" action="{{ route('tasks.reopen', $task) }}">
+                    @csrf
+                    <button type="submit" class="btn btn-outline-primary btn-sm">
+                        <i class="bi bi-arrow-counterclockwise me-1"></i> Reopen
+                    </button>
+                </form>
+            @endif
+
+            <form method="POST" action="{{ route('tasks.duplicate', $task) }}">
+                @csrf
+                <button type="submit" class="btn btn-outline-secondary btn-sm">
+                    <i class="bi bi-copy me-1"></i> Duplicate
+                </button>
+            </form>
+
             <a href="{{ route('tasks.edit', $task) }}" class="btn btn-outline-primary btn-sm">Edit</a>
             <a href="{{ route('tasks.index') }}" class="btn btn-outline-secondary btn-sm">Back</a>
             <form
@@ -26,7 +49,7 @@
                 action="{{ route('tasks.destroy', $task) }}"
                 data-confirm-delete
                 data-confirm-title="Delete task?"
-                data-confirm-text="This will soft-delete the task."
+                data-confirm-text="This will move the task to trash."
             >
                 @csrf
                 @method('DELETE')

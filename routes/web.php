@@ -35,6 +35,13 @@ Route::middleware('auth')->group(function (): void {
     Route::get('/dashboard', DashboardController::class)->name('dashboard');
 
     Route::resource('categories', CategoryController::class)->except(['show']);
+
+    Route::get('tasks/trash', [TaskController::class, 'trash'])->name('tasks.trash');
+    Route::post('tasks/{task}/complete', [TaskController::class, 'complete'])->name('tasks.complete');
+    Route::post('tasks/{task}/reopen', [TaskController::class, 'reopen'])->name('tasks.reopen');
+    Route::post('tasks/{task}/duplicate', [TaskController::class, 'duplicate'])->name('tasks.duplicate');
+    Route::post('tasks/{task}/restore', [TaskController::class, 'restore'])->withTrashed()->name('tasks.restore');
+    Route::delete('tasks/{task}/force', [TaskController::class, 'forceDelete'])->withTrashed()->name('tasks.force-delete');
     Route::resource('tasks', TaskController::class);
 
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');

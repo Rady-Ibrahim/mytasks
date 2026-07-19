@@ -31,6 +31,20 @@ class TaskController extends Controller
         return view('tasks.index', compact('tasks'));
     }
 
+    public function trash(Request $request): View
+    {
+        $this->authorize('viewAny', Task::class);
+
+        $tasks = $request->user()
+            ->tasks()
+            ->onlyTrashed()
+            ->with('category')
+            ->latest('deleted_at')
+            ->paginate(10);
+
+        return view('tasks.trash', compact('tasks'));
+    }
+
     public function create(Request $request): View
     {
         $this->authorize('create', Task::class);
@@ -83,7 +97,58 @@ class TaskController extends Controller
 
         return redirect()
             ->route('tasks.index')
-            ->with('success', 'Task deleted successfully.');
+            ->with('success', 'Task moved to trash.');
+    }
+
+    public function complete(Task $task): RedirectResponse
+    {
+        $this->authorize('update', $task);
+
+        $this->tasks->complete($task);
+
+        return back()->with('success', 'Task marked as completed.');
+    }
+
+    public function reopen(Task $task): RedirectResponse
+    {
+        $this->authorize('update', $task);
+
+        $this->tasks->reopen($task);
+
+        return back()->with('success', 'Task reopened.');
+    }
+
+    public function duplicate(Task $task): RedirectResponse
+    {
+        $this->authorize('duplicate', $task);
+
+        $copy = $this->tasks->duplicate($task);
+
+        return redirect()
+            ->route('tasks.show', $copy)
+            ->with('success', 'Task duplicated successfully.');
+    }
+
+    public function restore(Task $task): RedirectResponse
+    {
+        $this->authorize('restore', $task);
+
+        $this->tasks->restore($task);
+
+        return redirect()
+            ->route('tasks.trash')
+            ->with('success', 'Task restored successfully.');
+    }
+
+    public function forceDelete(Task $task): RedirectResponse
+    {
+        $this->authorize('forceDelete', $task);
+
+        $this->tasks->forceDelete($task);
+
+        return redirect()
+            ->route('tasks.trash')
+            ->with('success', 'Task permanently deleted.');
     }
 
     /**
