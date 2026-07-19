@@ -26,7 +26,7 @@
 | 2 | Layout, UI Kit & Dark Mode | ✅ Done |
 | 3 | User Profile | ✅ Done |
 | 4 | Categories | ✅ Done |
-| 5 | Tasks (CRUD Core) | ⬜ Pending |
+| 5 | Tasks (CRUD Core) | ✅ Done |
 | 6 | Task Actions & Soft Deletes | ⬜ Pending |
 | 7 | Search, Filters & Sort | ⬜ Pending |
 | 8 | Dashboard & Statistics | ⬜ Pending |

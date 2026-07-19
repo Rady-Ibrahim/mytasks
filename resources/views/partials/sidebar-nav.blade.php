@@ -11,7 +11,7 @@
     <a class="nav-link {{ request()->routeIs('dashboard') ? 'active' : '' }}" href="{{ route('dashboard') }}">
         <i class="bi bi-speedometer2 me-2"></i> Dashboard
     </a>
-    <a class="nav-link disabled" href="#" aria-disabled="true">
+    <a class="nav-link {{ request()->routeIs('tasks.*') ? 'active' : '' }}" href="{{ route('tasks.index') }}">
         <i class="bi bi-list-task me-2"></i> Tasks
     </a>
     <a class="nav-link {{ request()->routeIs('categories.*') ? 'active' : '' }}" href="{{ route('categories.index') }}">
