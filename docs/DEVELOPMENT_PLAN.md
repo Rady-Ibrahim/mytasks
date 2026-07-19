@@ -22,9 +22,9 @@
 | Phase | Name | Status |
 |-------|------|--------|
 | 0 | Foundation & Tooling | ✅ Done |
-| 1 | Authentication | ⬜ Pending |
-| 2 | Layout, UI Kit & Dark Mode | ⬜ Pending |
-| 3 | User Profile | ⬜ Pending |
+| 1 | Authentication | ✅ Done |
+| 2 | Layout, UI Kit & Dark Mode | ✅ Done |
+| 3 | User Profile | ✅ Done |
 | 4 | Categories | ⬜ Pending |
 | 5 | Tasks (CRUD Core) | ⬜ Pending |
 | 6 | Task Actions & Soft Deletes | ⬜ Pending |

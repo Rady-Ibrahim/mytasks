@@ -17,6 +17,11 @@
                         Organize tasks, categories, reminders, and your daily productivity in one clean workspace.
                     </p>
 
+                    <div class="d-flex flex-wrap gap-2 mb-4">
+                        <a href="{{ route('register') }}" class="btn btn-primary">Get started</a>
+                        <a href="{{ route('login') }}" class="btn btn-outline-primary">Log in</a>
+                    </div>
+
                     <div class="d-flex flex-wrap gap-2">
                         <span class="badge bg-primary-subtle text-primary-emphasis border">Laravel 12</span>
                         <span class="badge bg-primary-subtle text-primary-emphasis border">Blade</span>
@@ -24,12 +29,6 @@
                         <span class="badge bg-primary-subtle text-primary-emphasis border">Vite</span>
                         <span class="badge bg-primary-subtle text-primary-emphasis border">MySQL</span>
                     </div>
-
-                    <hr class="my-4">
-
-                    <p class="mb-0 text-secondary small">
-                        Foundation ready. Authentication and app modules will be built phase by phase.
-                    </p>
                 </div>
             </div>
         </div>

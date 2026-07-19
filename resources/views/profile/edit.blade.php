@@ -1,0 +1,147 @@
+@extends('layouts.app')
+
+@section('title', 'Profile — '.config('app.name'))
+@section('page-title', 'Profile')
+
+@section('content')
+    <div class="row g-4">
+        <div class="col-lg-7">
+            <div class="card border-0 shadow-sm">
+                <div class="card-body p-4">
+                    <h1 class="h5 mb-4">Profile details</h1>
+
+                    <form method="POST" action="{{ route('profile.update') }}" enctype="multipart/form-data">
+                        @csrf
+                        @method('PUT')
+
+                        <div class="d-flex align-items-center gap-3 mb-4">
+                            <img
+                                src="{{ $user->avatarUrl() }}"
+                                alt="{{ $user->name }}"
+                                class="rounded-circle border"
+                                width="72"
+                                height="72"
+                                style="object-fit: cover;"
+                                data-testid="profile-avatar"
+                            >
+                            <div>
+                                <div class="fw-semibold">{{ $user->name }}</div>
+                                <div class="text-secondary small">{{ $user->email }}</div>
+                            </div>
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="name" class="form-label">Name</label>
+                            <input
+                                id="name"
+                                type="text"
+                                name="name"
+                                value="{{ old('name', $user->name) }}"
+                                class="form-control @error('name') is-invalid @enderror"
+                                required
+                            >
+                            @error('name')
+                                <div class="invalid-feedback">{{ $message }}</div>
+                            @enderror
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="email" class="form-label">Email</label>
+                            <input
+                                id="email"
+                                type="email"
+                                name="email"
+                                value="{{ old('email', $user->email) }}"
+                                class="form-control @error('email') is-invalid @enderror"
+                                required
+                            >
+                            @error('email')
+                                <div class="invalid-feedback">{{ $message }}</div>
+                            @enderror
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="avatar" class="form-label">Profile picture</label>
+                            <input
+                                id="avatar"
+                                type="file"
+                                name="avatar"
+                                accept="image/*"
+                                class="form-control @error('avatar') is-invalid @enderror"
+                            >
+                            @error('avatar')
+                                <div class="invalid-feedback">{{ $message }}</div>
+                            @enderror
+                        </div>
+
+                        @if ($user->avatar)
+                            <div class="form-check mb-4">
+                                <input class="form-check-input" type="checkbox" value="1" name="remove_avatar" id="remove_avatar">
+                                <label class="form-check-label" for="remove_avatar">Remove current picture</label>
+                            </div>
+                        @endif
+
+                        <button type="submit" class="btn btn-primary">Save profile</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-lg-5">
+            <div class="card border-0 shadow-sm">
+                <div class="card-body p-4">
+                    <h2 class="h5 mb-4">Change password</h2>
+
+                    <form method="POST" action="{{ route('profile.password') }}">
+                        @csrf
+                        @method('PUT')
+
+                        <div class="mb-3">
+                            <label for="current_password" class="form-label">Current password</label>
+                            <input
+                                id="current_password"
+                                type="password"
+                                name="current_password"
+                                class="form-control @error('current_password') is-invalid @enderror"
+                                required
+                                autocomplete="current-password"
+                            >
+                            @error('current_password')
+                                <div class="invalid-feedback">{{ $message }}</div>
+                            @enderror
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="password" class="form-label">New password</label>
+                            <input
+                                id="password"
+                                type="password"
+                                name="password"
+                                class="form-control @error('password') is-invalid @enderror"
+                                required
+                                autocomplete="new-password"
+                            >
+                            @error('password')
+                                <div class="invalid-feedback">{{ $message }}</div>
+                            @enderror
+                        </div>
+
+                        <div class="mb-4">
+                            <label for="password_confirmation" class="form-label">Confirm new password</label>
+                            <input
+                                id="password_confirmation"
+                                type="password"
+                                name="password_confirmation"
+                                class="form-control"
+                                required
+                                autocomplete="new-password"
+                            >
+                        </div>
+
+                        <button type="submit" class="btn btn-outline-primary">Update password</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+@endsection

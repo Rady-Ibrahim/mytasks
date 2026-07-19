@@ -45,6 +45,10 @@ body {
     animation: mytasks-spin 0.75s linear infinite;
 }
 
+#app-loading:not(.d-none) {
+    display: flex !important;
+}
+
 @keyframes mytasks-spin {
     to {
         transform: rotate(360deg);

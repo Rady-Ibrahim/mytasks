@@ -16,6 +16,8 @@
         </div>
     </main>
 
+    @include('partials.loading')
+
     @stack('scripts')
 </body>
 </html>

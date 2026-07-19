@@ -22,4 +22,13 @@ document.addEventListener('DOMContentLoaded', () => {
         const toast = window.bootstrap.Toast.getOrCreateInstance(toastEl);
         toast.show();
     }
+
+    document.querySelectorAll('form[data-loading="true"]').forEach((form) => {
+        form.addEventListener('submit', () => {
+            const loader = document.getElementById('app-loading');
+            if (loader) {
+                loader.classList.remove('d-none');
+            }
+        });
+    });
 });
