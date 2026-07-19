@@ -19,16 +19,20 @@
 
     @vite(['resources/css/app.css', 'resources/js/app.js'])
 </head>
-<body class="guest-shell">
+<body class="guest-shell @yield('body-class')">
     <div class="guest-locale-bar">
         @include('partials.locale-switcher', ['buttonClass' => 'guest-locale-btn'])
     </div>
 
-    <main class="guest-content min-vh-100 d-flex align-items-center py-5">
-        <div class="container">
-            @yield('content')
-        </div>
-    </main>
+    @hasSection('full')
+        @yield('full')
+    @else
+        <main class="guest-content min-vh-100 d-flex align-items-center py-5">
+            <div class="container">
+                @yield('content')
+            </div>
+        </main>
+    @endif
 
     @include('partials.loading')
 
